@@ -16,12 +16,13 @@ class CommandServiceProvider extends ServiceProvider
      */
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
-        // TODO: Implement register() method.
+        $this->registerPublishCommand();
+        $this->registerSetupCommand();
+
+        $this->commands($this->commands);
     }
 
     /**
@@ -32,7 +33,38 @@ class CommandServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            //
+            'arcanesoft.pages.commands.publish',
+            'arcanesoft.pages.commands.setup',
         ];
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+ |  Command Functions
+ | ------------------------------------------------------------------------------------------------
+ */
+    /**
+     * Register the publish command.
+     */
+    private function registerPublishCommand()
+    {
+        $this->app->singleton(
+            'arcanesoft.pages.commands.publish',
+            \Arcanesoft\Pages\Console\PublishCommand::class
+        );
+
+        $this->commands[] = \Arcanesoft\Pages\Console\PublishCommand::class;
+    }
+
+    /**
+     * Register the setup command.
+     */
+    private function registerSetupCommand()
+    {
+        $this->app->singleton(
+            'arcanesoft.pages.commands.setup',
+            \Arcanesoft\Pages\Console\SetupCommand::class
+        );
+
+        $this->commands[] = \Arcanesoft\Pages\Console\SetupCommand::class;
     }
 }
