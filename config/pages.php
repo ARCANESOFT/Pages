@@ -1,7 +1,11 @@
 <?php
 
 return [
-    'route' => [
+    'database' => [
+        'connection' => null,
+        'prefix'     => '',
+    ],
+    'route'    => [
         'prefix' => 'pages',
     ],
 ];
