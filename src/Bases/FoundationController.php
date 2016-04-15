@@ -39,6 +39,6 @@ class FoundationController extends BaseController
     {
         parent::__construct();
 
-        $this->addBreadcrumbRoute('Pages', 'pages::foundation.dashboard');
+        $this->addBreadcrumbRoute('CMS', 'pages::foundation.dashboard');
     }
 }
