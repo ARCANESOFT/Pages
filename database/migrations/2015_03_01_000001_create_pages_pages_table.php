@@ -34,14 +34,16 @@ class CreatePagesPagesTable extends Migration
     public function up()
     {
         $this->createSchema(function (Blueprint $table) {
-            $table->increments('id');
+            $table->engine = 'InnoDB';
 
+            $table->increments('id');
+            $table->integer('author_id')->unsigned();
             $table->string('title');
             $table->string('slug');
             $table->text('content');
-            $table->string('view');
-
+            $table->string('template')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique('slug');
         });
