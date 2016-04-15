@@ -49,8 +49,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapPublicRoutes($router);
-        $this->mapFoundationRoutes($router);
+        $this->mapFrontEndRoutes($router);
+        $this->mapBackEndRoutes($router);
     }
 
     /**
@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    private function mapPublicRoutes(Router $router)
+    private function mapFrontEndRoutes(Router $router)
     {
         $attributes = [
             'prefix'    => 'pages',
@@ -71,11 +71,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    private function mapFoundationRoutes(Router $router)
+    private function mapBackEndRoutes(Router $router)
     {
         $attributes = array_merge($this->getFoundationRouteGroup(), [
             'as'        => 'pages::foundation.',
-            'namespace' => 'Arcanesoft\\Auth\\Http\\Controllers\\Back',
+            'namespace' => 'Arcanesoft\\Pages\\Http\\Controllers\\Back',
         ]);
 
         $router->group(array_merge(
@@ -83,6 +83,7 @@ class RouteServiceProvider extends ServiceProvider
             ['prefix' => $this->getFoundationPagesPrefix()]
         ), function (Router $router) {
             Routes\Back\StatsRoutes::register($router);
+            Routes\Back\PagesRoutes::register($router);
         });
     }
 }
