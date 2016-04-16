@@ -1,5 +1,6 @@
 <?php namespace Arcanesoft\Pages\Providers;
 
+use Arcanedev\LaravelMarkdown\LaravelMarkdownServiceProvider;
 use Arcanedev\Support\ServiceProvider;
 
 /**
@@ -19,6 +20,6 @@ class PackagesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(LaravelMarkdownServiceProvider::class);
     }
 }
