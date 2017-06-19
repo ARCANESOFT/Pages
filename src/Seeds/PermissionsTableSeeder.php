@@ -1,6 +1,7 @@
 <?php namespace Arcanesoft\Pages\Seeds;
 
 use Arcanesoft\Auth\Seeds\PermissionsSeeder;
+use Arcanesoft\Pages\Policies\PagesPolicy;
 
 /**
  * Class     PermissionsTableSeeder
@@ -10,10 +11,11 @@ use Arcanesoft\Auth\Seeds\PermissionsSeeder;
  */
 class PermissionsTableSeeder extends PermissionsSeeder
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Run the database seeds.
      */
@@ -33,10 +35,11 @@ class PermissionsTableSeeder extends PermissionsSeeder
         ]);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Permissions
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the Pages permissions.
      *
@@ -48,24 +51,24 @@ class PermissionsTableSeeder extends PermissionsSeeder
             [
                 'name'        => 'Pages - List all pages',
                 'description' => 'Allow to list all pages.',
-                'slug'        => 'pages.pages.list',
+                'slug'        => PagesPolicy::PERMISSION_LIST,
             ],[
                 'name'        => 'Pages - View a page',
                 'description' => 'Allow to display a page.',
-                'slug'        => 'pages.pages.show',
+                'slug'        => PagesPolicy::PERMISSION_SHOW,
             ],[
                 'name'        => 'Pages - Create a page',
                 'description' => 'Allow to create a page.',
-                'slug'        => 'pages.pages.create',
+                'slug'        => PagesPolicy::PERMISSION_CREATE,
             ],[
                 'name'        => 'Pages - Update a page',
                 'description' => 'Allow to update a page.',
-                'slug'        => 'pages.pages.update',
+                'slug'        => PagesPolicy::PERMISSION_UPDATE,
             ],[
                 'name'        => 'Pages - Delete a page',
                 'description' => 'Allow to delete a page.',
-                'slug'        => 'pages.pages.delete',
-            ]
+                'slug'        => PagesPolicy::PERMISSION_DELETE,
+            ],
         ];
     }
 }
