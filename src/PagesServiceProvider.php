@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Pages;
 
 use Arcanesoft\Core\Bases\PackageServiceProvider;
-use Arcanesoft\Core\CoreServiceProvider;
 
 /**
  * Class     PagesServiceProvider
