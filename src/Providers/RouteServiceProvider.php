@@ -1,8 +1,7 @@
 <?php namespace Arcanesoft\Pages\Providers;
 
-use Arcanesoft\Pages\Http\Routes;
 use Arcanesoft\Core\Bases\RouteServiceProvider as ServiceProvider;
-use Illuminate\Contracts\Routing\Registrar as Router;
+use Arcanesoft\Pages\Http\Routes;
 
 /**
  * Class     RouteServiceProvider
@@ -12,78 +11,51 @@ use Illuminate\Contracts\Routing\Registrar as Router;
  */
 class RouteServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
      */
-    /**
-     * Get the routes namespace
-     *
-     * @return string
-     */
-    protected function getRouteNamespace()
-    {
-        return 'Arcanesoft\\Pages\\Http\\Routes';
-    }
 
-    /**
-     * Get the auth foundation route prefix.
-     *
-     * @return string
-     */
-    public function getFoundationPagesPrefix()
-    {
-        $prefix = array_get($this->getFoundationRouteGroup(), 'prefix', 'dashboard');
+    protected $adminNamespace = 'Arcanesoft\\Pages\\Http\\Controllers\\Admin';
 
-        return "$prefix/" . config('arcanesoft.pages.route.prefix', 'pages');
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Define the routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    public function map(Router $router)
+    public function map()
     {
-        $this->mapFrontEndRoutes($router);
-        $this->mapBackEndRoutes($router);
-    }
-
-    /**
-     * Define the public routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
-     */
-    private function mapFrontEndRoutes(Router $router)
-    {
-        $attributes = [
-            'prefix'    => 'pages',
-            'as'        => 'pages::',
-            'namespace' => 'Arcanesoft\\Pages\\Http\\Controllers\\Front',
-        ];
-    }
-    /**
-     * Define the foundation routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
-     */
-    private function mapBackEndRoutes(Router $router)
-    {
-        $attributes = array_merge($this->getFoundationRouteGroup(), [
-            'as'        => 'pages::foundation.',
-            'namespace' => 'Arcanesoft\\Pages\\Http\\Controllers\\Back',
-        ]);
-
-        $router->group(array_merge(
-            $attributes,
-            ['prefix' => $this->getFoundationPagesPrefix()]
-        ), function (Router $router) {
-            Routes\Back\StatsRoutes::register($router);
-            Routes\Back\PagesRoutes::register($router);
+        $this->adminGroup(function () {
+            $this->mapAdminRoutes();
         });
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Register the route bindings.
+     */
+    protected function registerRouteBindings()
+    {
+        //
+    }
+
+    /**
+     * Define the admin routes for the application.
+     */
+    protected function mapAdminRoutes()
+    {
+        $this->name('pages.')
+             ->prefix($this->config()->get('arcanesoft.pages.route.prefix', 'pages'))
+             ->group(function () {
+                 Routes\Admin\StatsRoutes::register();
+                 Routes\Admin\PagesRoutes::register();
+             });
     }
 }

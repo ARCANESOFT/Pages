@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Pages;
 
 use Arcanesoft\Core\Bases\PackageServiceProvider;
-use Arcanesoft\Core\CoreServiceProvider;
 
 /**
  * Class     PagesServiceProvider
@@ -11,30 +10,17 @@ use Arcanesoft\Core\CoreServiceProvider;
  */
 class PagesServiceProvider extends PackageServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Package name.
      *
      * @var string
      */
     protected $package = 'pages';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get the base path of the package.
-     *
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return dirname(__DIR__);
-    }
 
     /* ------------------------------------------------------------------------------------------------
     |  Main Functions
@@ -48,14 +34,14 @@ class PagesServiceProvider extends PackageServiceProvider
         $this->registerConfig();
         $this->registerSidebarItems();
 
-        $this->app->register(CoreServiceProvider::class);
-        $this->app->register(Providers\PackagesServiceProvider::class);
-        $this->app->register(Providers\AuthorizationServiceProvider::class);
-        $this->app->register(Providers\ComposerServiceProvider::class);
+        $this->registerProviders([
+            Providers\PackagesServiceProvider::class,
+            Providers\AuthorizationServiceProvider::class,
+            Providers\ComposerServiceProvider::class,
+            Providers\RouteServiceProvider::class,
+        ]);
 
-        if ($this->app->runningInConsole()) {
-            $this->app->register(Providers\CommandServiceProvider::class);
-        }
+        $this->registerConsoleServiceProvider(Providers\CommandServiceProvider::class);
     }
 
     /**
@@ -63,9 +49,9 @@ class PagesServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
-        $this->publishAll();
+        parent::boot();
 
-        $this->app->register(Providers\RouteServiceProvider::class);
+        $this->publishAll();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Arcanesoft\Pages\Seeds;
 
-use Arcanesoft\Pages\Bases\Seeder;
+use Arcanedev\Support\Bases\Seeder;
 
 /**
  * Class     DatabaseSeeder

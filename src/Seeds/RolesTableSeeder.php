@@ -1,7 +1,5 @@
 <?php namespace Arcanesoft\Pages\Seeds;
 
-use Arcanesoft\Auth\Models\Role;
-use Arcanesoft\Auth\Models\Permission;
 use Arcanesoft\Auth\Seeds\RolesSeeder;
 
 /**
@@ -12,10 +10,11 @@ use Arcanesoft\Auth\Seeds\RolesSeeder;
  */
 class RolesTableSeeder extends RolesSeeder
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Run the database seeds.
      */
@@ -32,35 +31,11 @@ class RolesTableSeeder extends RolesSeeder
                 'is_locked'   => true,
             ]
         ]);
-        $this->syncAdminRole();
-        $this->syncRoles();
-    }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Sync the roles.
-     *
-     * @todo: Refactor this method
-     */
-    private function syncRoles()
-    {
-        $permissions = Permission::all();
-        $roles       = [
+        $this->syncAdminRole();
+        $this->syncRoles([
             'pages-moderators' => 'pages.',
             'pages-authors'    => 'pages.pages.',
-        ];
-
-        foreach ($roles as $roleSlug => $permissionSlug) {
-            /** @var  \Arcanesoft\Auth\Models\Role  $role */
-            $role = Role::where('slug', $roleSlug)->first();
-            $ids  = $permissions->filter(function (Permission $permission) use ($permissionSlug) {
-                return starts_with($permission->slug, $permissionSlug);
-            })->lists('id')->toArray();
-
-            $role->permissions()->sync($ids);
-        }
+        ]);
     }
 }

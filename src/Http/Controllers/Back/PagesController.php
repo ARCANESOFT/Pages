@@ -61,7 +61,7 @@ class PagesController extends Controller
         $this->setTitle($title);
         $this->addBreadcrumb($title);
 
-        return $this->view('backend.pages.list', compact('trashed', 'pages'));
+        return $this->view('backend.pages.index', compact('trashed', 'pages'));
     }
 
     public function add()
